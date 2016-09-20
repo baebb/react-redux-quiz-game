@@ -8,12 +8,11 @@ import {createQuestion} from '../actions/index';
 
 class Home extends React.Component {
     createQuestionHandler(props) {
-        // console.log(props);
         this.props.createQuestion(props);
+        this.props.reset();
     }
 
     render() {
-        console.log(this.props);
         const {handleSubmit, questionType} = this.props;
         return (
             <div className="row">
@@ -37,8 +36,9 @@ class Home extends React.Component {
                             <label><Field name="questionAnswer" component="input" type="radio" value="true"/>True</label>
                             <label><Field name="questionAnswer" component="input" type="radio" value="false"/>False</label>
                         </div>}
-                        <button type="submit" className="btn btn-primary">Add Quesiton</button>
+                        <button type="submit" className="btn btn-primary">Add Question</button>
                     </form>
+                    <Link to={"question/0"} className="btn btn-danger pull-xs-right">Student Mode</Link>
                 </div>
             </div>
         )
