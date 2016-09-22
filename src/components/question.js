@@ -19,7 +19,6 @@ class Question extends React.Component {
     }
 
     quizHandler(props) {
-        console.log(props);
         if (this.props.params.id == this.props.questions.length - 1) {
             this.checkAnswers(props);
             this.props.reset();
@@ -77,7 +76,12 @@ class Question extends React.Component {
                         <div className="form-group">
                             <label htmlFor={`question${id}`}>Your Answer:</label>
                             <Field name={`${id}`} component="input" className="form-control" type="text"/>
-                            <Link to={`/question/${Number(id) - 1}`} className="btn btn-danger pull-xs-left">Back</Link>
+                            <Link
+                                disabled={id == '0'}
+                                to={`/question/${Number(id) - 1}`}
+                                className={id == '0' ? "btn btn-danger pull-xs-left disabled" : "btn btn-danger pull-xs-left"}
+                            >
+                                Back</Link>
                             <button type="submit" className="btn btn-primary pull-xs-right">Next</button>
                         </div>
                     </form>
