@@ -6,21 +6,49 @@ import {reduxForm, Field, formValueSelector} from 'redux-form';
 import {createQuestion} from '../actions/index';
 import QuestionItem from './question-item';
 
+
 class Home extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            error: ''
+        }
+    }
+
     createQuestionHandler(props) {
-        this.props.createQuestion(props);
-        this.props.reset();
+        function sendQuestion() {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    if (Math.random() < 0.1) {
+                        return reject();
+                    }
+                    return resolve();
+                }, Math.random() * 1000);
+            })
+        }
+
+        sendQuestion()
+            .then(() => {
+                this.props.reset();
+                this.setState({error: 'false'});
+                this.props.createQuestion(props);
+            })
+            .catch(() => {
+                this.props.reset();
+                this.setState({error: 'true'});
+            })
     }
 
     renderQuestions(question, index) {
         return (
-            <QuestionItem question={question} key={index} index={index} />
+            <QuestionItem question={question} key={index} index={index}/>
         )
     }
 
     render() {
         const {handleSubmit, questionType, questions} = this.props;
-        // console.log(questions);
+        const {error} = this.state;
         return (
             <div className="row">
                 <div className="col-md-4 offset-md-4">
@@ -49,6 +77,16 @@ class Home extends React.Component {
                         </div>}
                         <button type="submit" className="btn btn-primary">Add Question</button>
                     </form>
+                    {error == 'true' &&
+                    <div className="alert alert-danger" role="alert">
+                        Question save failed!
+                    </div>
+                    }
+                    {error == 'false' &&
+                    <div className="alert alert-success" role="alert">
+                        Question saved!
+                    </div>
+                    }
                     <h4>Questions:</h4>
                     <div className="list-group">
                         {questions.map(this.renderQuestions)}

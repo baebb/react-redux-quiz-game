@@ -33,10 +33,6 @@ class Question extends React.Component {
             incorrect = 0;
 
         this.props.questions.forEach((question, index) => {
-
-
-            console.log(question.questionAnswer);
-            console.log(answers[index]);
             if (question.questionAnswer == answers[index]) {
                 correct++;
             } else {
@@ -82,8 +78,15 @@ class Question extends React.Component {
                                 to={`/question/${Number(id) - 1}`}
                                 className={id == '0' ? "btn btn-danger pull-xs-left disabled" : "btn btn-danger pull-xs-left"}
                             >
-                                Back</Link>
-                            <button type="submit" className="btn btn-primary pull-xs-right">Next</button>
+                                Back
+                            </Link>
+                            <button
+                                disabled={this.state.checked}
+                                type="submit"
+                                className="btn btn-primary pull-xs-right"
+                            >
+                                Next
+                            </button>
                         </div>
                     </form>
                     {this.state.checked &&
